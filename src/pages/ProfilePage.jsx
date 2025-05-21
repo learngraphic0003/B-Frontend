@@ -3,6 +3,7 @@ import axios from 'axios'
 import Navbar from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { useNavigate } from 'react-router-dom'
+import { Server } from '../constant/constant'
 
 const ProfilePage = () => {
   const [user, setUser] = useState({})
@@ -17,13 +18,13 @@ const ProfilePage = () => {
         if (!token) return
 
         // Decode token (simplified - you can also use jwt-decode package)
-        const resUser = await axios.get('http://localhost:8000/api/auth/me', {
+        const resUser = await axios.get(`${Server}/api/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
         setUser(resUser.data.user)
 
-        const resProjects = await axios.get('http://localhost:8000/api/projects/all')
+        const resProjects = await axios.get(`${Server}/api/projects/all`)
         const myProjects = resProjects.data.filter(
           p => p.createdBy?._id === resUser.data.user._id
         )
@@ -45,7 +46,7 @@ const ProfilePage = () => {
   const handleDelete = async id => {
     const token = localStorage.getItem('token')
     try {
-      await axios.delete(`http://localhost:8000/api/projects/${id}`, {
+      await axios.delete(`${Server}/api/projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setProjects(prev => prev.filter(p => p._id !== id))

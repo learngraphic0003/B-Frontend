@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Navbar from '../components/Navbar'
 import { Footer } from '../components/Footer'
+import { Server } from '../constant/constant'
 
 const UpdateProject = () => {
   const { id } = useParams()
@@ -27,7 +28,7 @@ const UpdateProject = () => {
   const fetchProject = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await axios.get(`http://localhost:8000/api/projects/${id}`, {
+      const res = await axios.get(`${Server}/api/projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -69,7 +70,7 @@ const UpdateProject = () => {
       if (newVideo) data.append('video', newVideo)
       if (newFile) data.append('file', newFile)
 
-      await axios.put(`http://localhost:8000/api/projects/${id}`, data, {
+      await axios.put(`${Server}/api/projects/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

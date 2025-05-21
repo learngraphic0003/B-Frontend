@@ -21,7 +21,7 @@ const ViewProject = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/projects/all', {
+        const response = await axios.get(`${Server}/api/projects/all`, {
           withCredentials: true,
         });
         const backendProjects = response.data.map((p) => ({

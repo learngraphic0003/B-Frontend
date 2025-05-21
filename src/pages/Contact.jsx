@@ -8,7 +8,7 @@ import {
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import axios from "axios";
-
+import { Server } from "../constant/constant";
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +32,7 @@ const Contact = () => {
     setResponseMessage("");
 
     try {
-      const res = await axios.post("http://localhost:8000/api/contact", formData);
+      const res = await axios.post(`${Server}/api/contact`, formData);
       setResponseMessage(res.data.message);
       setFormData({ name: "", email: "", message: "" });
     } catch (err) {
