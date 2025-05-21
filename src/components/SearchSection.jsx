@@ -13,10 +13,10 @@ const SearchSection = () => {
 
     const fetchProjects = async () => {
       try {
-        const response = await axios.get("http://localhost:9000/api/projects/all");
+        const response = await axios.get("http://localhost:8000/api/projects/all");
 
         const formatted = response.data.map((p) => ({
-          _id: p._id, 
+          _id: p._id, // ✅ REQUIRED for routing to project detail
           projectimage: p.image || "/fallback.jpg",
           projectname: p.name || "Untitled",
           username: p.createdBy?.email || "Unknown",

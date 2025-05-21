@@ -21,11 +21,9 @@ const ViewProject = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Try to fetch backend data
         const response = await axios.get('http://localhost:8000/api/projects/all', {
           withCredentials: true,
         });
-        console.log(response)
         const backendProjects = response.data.map((p) => ({
           projectimage: p.image || '/fallback.jpg',
           projectname: p.name,
@@ -34,11 +32,10 @@ const ViewProject = () => {
           description: p.description || '',
           tags: p.tags || [],
           video: p.video || '',
-          file: { url: p.file }, // Assume backend sends a direct URL string
-          userimage: p.createdBy?.avatar || '', // optional
+          file: { url: p.file },
+          userimage: p.createdBy?.avatar || '',
         }));
 
-        // Match project from backend
         const backendProject = backendProjects.find(
           (p) => p.projectname === projectname
         );
@@ -51,7 +48,6 @@ const ViewProject = () => {
         console.error('Error fetching from backend:', err);
       }
 
-      // Fallback to static file
       const staticProject = projectData.find((p) => p.projectname === projectname);
       setProject(staticProject || null);
     };
@@ -81,7 +77,6 @@ const ViewProject = () => {
     <>
       <Navbar />
       <div className="p-6 md:p-12 space-y-10 max-w-screen-xl mx-auto text-white">
-        {/* Profile Card */}
         <div className="flex flex-col lg:flex-row gap-6 border p-8 rounded-xl shadow-xl bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800">
           <div className="flex-shrink-0">
             <img
@@ -106,14 +101,19 @@ const ViewProject = () => {
                 </span>
               ))}
             </div>
+
+            {/* File Download Only */}
             {file?.url && (
-              <a
-                href={file.url}
-                download
-                className="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md"
-              >
-                Download Now
-              </a>
+              <div className="mt-6 space-y-2">
+                <h3 className="text-xl font-semibold">Attached File:</h3>
+                <a
+                  href={file.url}
+                  download
+                  className="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md"
+                >
+                  Download File
+                </a>
+              </div>
             )}
           </div>
         </div>
